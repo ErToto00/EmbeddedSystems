@@ -21,4 +21,9 @@ void tmr_setup_period(int timer, int ms);
 int tmr_wait_period(int timer);
 void tmr_wait_ms(int timer, int ms);
 
+//Interrupt Functions
+extern int count_T1;
+void __attribute__((interrupt, auto_psv)) _T1Interrupt(void);
+void __attribute__((interrupt, auto_psv)) _INT2Interrupt(void);
+
 #endif /* ES_LIB_H */
