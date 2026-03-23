@@ -105,23 +105,3 @@ void tmr_wait_ms(int timer, int ms){
         }
     } 
 }
-
-
-int count_T1 = 0;
-
-void __attribute__((interrupt, auto_psv)) _T1Interrupt(void){
-    IFS0bits.T1IF = 0;
-
-    count_T1++;
-
-    //logic with tmr wait ms
-    if (count_T1 == 5){
-        LATGbits.LATG6 = !LATGbits.LATG6;
-        count_T1 = 0;
-    }
-}    
-
-void __attribute__((interrupt, auto_psv))_INT2Interrupt(){
-    IFS1bits.INT2IF = 0;
-    LATGbits.LATG9 = !LATGbits.LATG9;
-}
