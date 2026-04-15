@@ -16,12 +16,12 @@ int main(void)
     RPINR19bits.U2RXR = 75;
     RPOR0bits.RP64R = 3;
     
+    char c;
+    
     // enable UART
-    U2BRG = 11; // (7372800 / 4) / (16 ? 9600)? 1
+    U2BRG = 468; 
     U2MODEbits.UARTEN = 1; // enable UART
     U2STAbits.UTXEN = 1; // enable U2TX (must be after UARTEN)
-    
-    U2TXREG = 'C'; // send ?C?
 
     while (1)
     {
@@ -29,7 +29,7 @@ int main(void)
             U2STAbits.OERR = 0; // clear flag for overflow 
         
         while (U2STAbits.URXDA == 0); // nothing to read -> wait
-        char c = U2RXREG;             // message received  
+        c = U2RXREG;             // message received  
         
         while (U2STAbits.UTXBF == 1);    // buffer full -> wait 
         U2TXREG = c;                    // send back character 

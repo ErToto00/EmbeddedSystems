@@ -3,8 +3,8 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>Project4.1_UART</name>
-            <creation-uuid>a55f958d-96d8-4921-89ac-dd3575387d61</creation-uuid>
+            <name>Project3.2_interrupt_button</name>
+            <creation-uuid>08daceb6-1ad1-4117-8575-9d8c9c76f078</creation-uuid>
             <make-project-type>0</make-project-type>
             <sourceEncoding>ISO-8859-1</sourceEncoding>
             <make-dep-projects/>
