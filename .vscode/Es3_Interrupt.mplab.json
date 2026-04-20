@@ -1,0 +1,39 @@
+{
+    "version": "1.9",
+    "configurations": [
+        {
+            "name": "default",
+            "id": "conf1",
+            "device": "dsPIC33EP512MU810",
+            "imagePath": "./out/Es3_Interrupt/default.elf",
+            "packs": [
+                {
+                    "name": "dsPIC33E-GM-GP-MC-GU-MU_DFP",
+                    "vendor": "Microchip",
+                    "version": "1.6.297"
+                }
+            ],
+            "fileSet": "default",
+            "toolchain": "default-XC16"
+        }
+    ],
+    "propertyGroups": [
+        {
+            "name": "default-XC16",
+            "type": "toolchain",
+            "provider": "microchip.toolchains:xc16@2.10",
+            "properties": {
+                "compiler.extra-include-directories": "Es3_Interrupt;ES"
+            }
+        }
+    ],
+    "fileSets": [
+        {
+            "name": "default",
+            "files": [
+                "Es3_Interrupt/**/*{.c,.h}",
+                "ES/**/*{.c,.h}"
+            ]
+        }
+    ]
+}

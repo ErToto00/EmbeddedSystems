@@ -1,0 +1,12 @@
+# ISTRUZIONI OPERATIVE
+Questo file definisce la procedura per generare e manutenere una libreria custom in C all'interno della cartella `ES`. 
+L'obiettivo è aggregare le funzioni di utilità e le variabili globali sviluppate nei vari progetti della repository, rendendole riutilizzabili e centralizzate.
+
+# COME AGGIUNGERE NUOVO CODICE
+
+* **1. GENERAZIONE:** Crea (o individua se già passati) un file header (es. `es_lib.h`) e un file sorgente (es. `es_lib.c`) all'interno di questa cartella. Se esistono già, passa alla fase successiva.
+* **2. RICERCA:** Esplora le altre cartelle del progetto "EmbeddedSystems" alla ricerca di moduli C (coppie di file `.c` e `.h` con lo stesso nome). Identifica al loro interno le funzioni riutilizzabili. Presta attenzione ad omettere funzioni specifiche di un singolo progetto (come funzioni `main`). Se una funzione è già presente nella libreria, confronta la versione e, se quella del progetto è più recente, aggiorna quella nella libreria.
+* **3. COPIA:** Copia le firme delle funzioni e le eventuali macro necessarie nel file header (`es_lib.h`), e le relative implementazioni nel file sorgente (`es_lib.c`). **Importante:** Inserisci un breve commento in **inglese** sopra ogni funzione nel file sorgente per spiegarne il comportamento. Assicurati di dichiarare le dipendenze hardware standard (es. `#include <xc.h>`, `#include <stdint.h>`) direttamente nell'header globale per evitare errori di compilazione.
+* **4. REQUISITI PER LA COMPILAZIONE:** Non compilare il file `.c` in un formato binario chiuso, ma mantienilo puro. Affinché la libreria possa essere utilizzata **sia in questo ambiente di sviluppo sia dall'IDE MPLAB X**, i file sorgenti (`.c` e `.h`) devono rimanere portabili. Per l'uso locale si userà un Makefile (o `xc16-gcc`/`xc32-gcc` da terminale), mentre in MPLAB X l'utente potrà semplicemente aggiungere i file al proprio progetto tra i "Source Files" / "Header Files" o linkarli come "Library Project".
+* **5. README.md** Arrivato a questo punto, aggiorna (o genera) il file README.md contenente la lista delle funzioni della libreria. Il documento deve essere scritto interamente in **inglese**.
+<!-- * **5. UPLOAD:** Una volta terminata la fase di integrazione, esegui il commit su git indicando nel titolo la versione dell'aggiornamento (es. `v1.2.0`) e nella descrizione del commit l'elenco delle eventuali nuove funzioni inserite. -->
