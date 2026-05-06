@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=MyTestProject.X
+PROJECTNAME=Project4.2_UART_Buttons.X
 
 # Active Configuration
 DEFAULTCONF=default

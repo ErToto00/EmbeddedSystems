@@ -33,7 +33,7 @@ int main(void)
     IEC0bits.T1IE = 1; //enable 
 
     while (1) {
-        // led1 no interrupt 1Hz
+        // led1 no interrupt
         LATAbits.LATA0 = !LATAbits.LATA0;   // toggle LED
         tmr_wait_ms(TIMER2, 500);
     }
