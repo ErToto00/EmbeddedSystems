@@ -54,28 +54,27 @@ void spi_config(){
     SPI1STATbits.SPIEN = 1;
 }
 
-void accelerometer_config() {
+#define CS_ACC LATDbits.LATD6
+
+void init_accelerometer() {
     // Sleep mode
     CS_ACC = 0;
-    spi_write(0x4B); // Address 0x4B (scrittura: MSB=0)
+    spi_write(0x4B); 
     spi_write(0x01); // Sleep
     CS_ACC = 1;
-    tmr_wait_ms(TIMER1, 3); // Waiting time 
+    tmr_wait_ms(TIMER1, 3); // 3 ms wait 
 
-    // Active mode 
+    // Active mode
     CS_ACC = 0;
-    spi_write(0x4C); // Address 0x4C
+    spi_write(0x4C); 
     spi_write(0x00); // Active
     CS_ACC = 1;
     tmr_wait_ms(TIMER1, 10);
 }
 
-// to checkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
-/*void set_bandwidth(int bw_val) {
-    // Supponendo che il registro per la BW sia 0x41 (da verificare su datasheet, 
-    // ma la logica SPI è questa):
+void set_bandwidth(int bw_val) {
     CS_ACC = 0;
-    spi_write(0x41);   // Indirizzo registro Bandwidth
-    spi_write(bw_val); // Scrive il valore ricevuto (8-15)
+    spi_write(0x41);  
+    spi_write(bw_val); 
     CS_ACC = 1;
-}*/
+}
