@@ -1,21 +1,12 @@
-#ifndef CONFIG_H
-#define CONFIG_H
+#ifndef XC_HEADER_TEMPLATE_H
+#define	XC_HEADER_TEMPLATE_H
 
-#include <xc.h>
+#include <xc.h> // include processor files - each processor file is guarded.  
 
-// Basic Peripheral Configuration
 void input_config(void);
 void uart_config(void);
 void spi_config(void);
+void adc_config(int sampling, int conversion, int n_tad, int tad_length, int scan, int scan_mode, int n_channels);
 
-// Accelerometer Functions (BMX055)
-void init_accelerometer(void);
-void set_bandwidth(int bw_val);
+#endif	/* XC_HEADER_TEMPLATE_H */
 
-// SPI Utility (Used by both config.c and main.c)
-unsigned int spi_write(unsigned int data);
-
-// UART Utility
-void send_string(char* str);
-
-#endif

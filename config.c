@@ -4,8 +4,25 @@
 #define CS_ACC LATBbits.LATB3
 
 // Input as digital
+// Inserisci queste definizioni in alto
+#define IR_EN_TRIS TRISGbits.TRISG1 // Pin EN del sensore IR (RG1)
+#define IR_EN_LAT  LATGbits.LATG1
+
 void input_config() {
+    // Set all pins as digital
     ANSELA = ANSELB = ANSELC = ANSELD = ANSELE = ANSELG = 0x0000;
+    
+    // Battery: AN11 is on RB11
+    TRISBbits.TRISB11 = 1; 
+    ANSELB |= 0x0800; // Set bit as analog
+
+    // IR sensor: AN2 is on RB2
+    TRISBbits.TRISB2 = 1;
+    ANSELB |= 0x0004; // Set bit as analog 
+    
+    // Eneable IR sensor 
+    IR_EN_TRIS = 0;
+    IR_EN_LAT = 1;
 }
 
 void uart_config() {
@@ -44,6 +61,16 @@ void spi_config() {
     SPI1CON1bits.PPRE = 3;
     SPI1CON1bits.SPRE = 3;
     SPI1STATbits.SPIEN = 1;
+    
+    // SPI Chip Select Pins
+    TRISDbits.TRISD6 = 0; // MAG
+    TRISBbits.TRISB4 = 0; // GYRO
+    TRISBbits.TRISB3 = 0; // ACC
+    
+    // Initialize all CS to High (inactive) 
+    LATDbits.LATD6 = 1; 
+    LATBbits.LATB4 = 1;
+    LATBbits.LATB3 = 1;
 }
 
 unsigned int spi_write(unsigned int data) {
@@ -65,4 +92,40 @@ void set_bandwidth(int bw_val) {
     spi_write(0x10);  
     spi_write(bw_val); 
     CS_ACC = 1;
+}
+
+// adc setup (manual/automatic/scan)
+void adc_config(int sampling, int conversion, int n_tad, int tad_length, int scan, int scan_mode, int n_channels) {
+    AD1CON1bits.ADON = 0;       // Configuration while off
+    
+    AD1CON1bits.AD12B = 0;      // 10-bits
+    AD1CON1bits.FORM = 0;       
+    
+    AD1CON1bits.ASAM = sampling;   
+    AD1CON1bits.SSRC = conversion; 
+
+    if (conversion == 7) {
+        if (n_tad < 0) AD1CON3bits.SAMC = 0; 
+        else if (n_tad > 31) AD1CON3bits.SAMC = 31;
+        else AD1CON3bits.SAMC = n_tad;
+        
+        if (tad_length < 1) AD1CON3bits.ADCS = 1;
+        else if (tad_length > 64) AD1CON3bits.ADCS = 64;
+        else AD1CON3bits.ADCS = tad_length;
+    }
+    
+    if (scan == 1) {
+        AD1CON2bits.CSCNA = 1;    // Scan mode 
+        AD1CON1bits.SIMSAM = 0;   // Sequential sampling 
+
+        if (n_channels > 0)
+            AD1CON2bits.SMPI = n_channels - 1; 
+        else 
+            AD1CON2bits.SMPI = 0;
+    } else {
+        AD1CON2bits.CSCNA = 0;
+        AD1CON2bits.SMPI = 0;
+    }
+    
+    AD1CON1bits.ADON = 1;       // Turn on adc
 }
